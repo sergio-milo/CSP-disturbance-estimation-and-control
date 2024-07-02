@@ -389,7 +389,7 @@ ft=round(0.7*Tend/dt)
 #st=round(0.3*Tend/dt)  #1200 #starting time for the plot
 #ft=round(0.32*Tend/dt)
 
-fig_d_sum=plt.figure()
+fig_d_sum=plt.figure(1)
 plt.plot(time_sim[st:ft], d_sum_real[st:ft], label=f'd real')
 plt.plot(time_sim[st:ft], d_estim_sum[st:ft], label=f'd estimated ')
 plt.xlabel('Time (s)')
@@ -400,16 +400,16 @@ plt.title('d_sum')
 plt.show()
 #fig_d_sum.savefig(f'd_sum.png', format='png', dpi=500)
 
-plt.plot(time_sim[st:ft], SD_y[st:ft])
-plt.xlabel('Time (s)')
-plt.ylabel('SD_y')
-plt.grid()
-plt.legend()
-plt.title('SD_y')
-plt.show()
+#plt.plot(time_sim[st:ft], SD_y[st:ft])
+#plt.xlabel('Time (s)')
+#plt.ylabel('SD_y')
+#plt.grid()
+#plt.legend()
+#plt.title('SD_y')
+#plt.show()
 
 # Plot the simulation results
-fig_w = plt.figure()
+fig_w = plt.figure(2)
 plt.plot(time_sim[st:ft], w_dymola[st:ft], label=f'Maffezzoni d real')
 plt.plot(time_sim[st:ft], w[st:ft], label=f'Maffezzoni d estimated ')
 #!plt.plot(time_sim[st:ft], a[st:ft, 0], label=f'PI')
@@ -421,7 +421,7 @@ plt.title(' Mass flow rate')
 plt.show()
 #fig_w.savefig(f'w.png', format='png', dpi=500)
 
-fig_k = plt.figure()
+fig_k = plt.figure(3)
 plt.plot(time_sim[st:ft], P_value[st:ft], label=f'Actual')
 plt.xlabel('Time (s)')
 plt.ylabel('Proportional and Integral gains')
@@ -434,7 +434,7 @@ plt.show()
 for j in range (0, num_panels):
      # Plot the simulation results
     
-    fig_d = plt.figure()
+    fig_d = plt.figure(j+4)
     plt.plot(time_sim[st:ft], flux_table_mean[j][st:ft], label=f'Actual')
     plt.plot(time_sim[st:ft], d_estim_panels[j][st:ft], label=f'Estimation')
     plt.xlabel('Time (s)')
@@ -448,7 +448,7 @@ for j in range (0, num_panels):
 
 for j in range (0, num_termometers):
     
-    fig_t = plt.figure()
+    fig_t = plt.figure(j+12)
     plt.plot(time_sim[st:ft], t_out_dymola[j][st:ft], label=f'Maffezzoni d real')
     plt.plot(time_sim[st:ft],  t_out_real[j][st:ft], label=f'Maffezzoni d estimated')
     #plt.plot(time_sim[st:ft], t_out_digital[j][st:ft], linestyle='--', label=f'DT d estimated')
