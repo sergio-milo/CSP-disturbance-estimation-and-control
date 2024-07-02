@@ -396,7 +396,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Flux kw/m^2')
 plt.grid()
 plt.legend()
-plt.title('Uniform reduction - d_sum')
+plt.title('d_sum')
 plt.show()
 #fig_d_sum.savefig(f'd_sum.png', format='png', dpi=500)
 
