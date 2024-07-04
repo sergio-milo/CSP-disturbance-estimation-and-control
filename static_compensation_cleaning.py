@@ -205,7 +205,7 @@ progress_bar = tqdm(total=len(time_sim), position=0, ncols=100, desc="Simulation
 
 i = 0
 
-# timemperature measurament points
+# timemperature measurament points 
 #t_out_digital_sens= np.zeros([num_termometers, flux_table.shape[1]])
 #t_out_meas_sens=np.zeros([num_termometers, flux_table.shape[1]])
 #t_out_meas_noisy=np.zeros([num_termometers, flux_table.shape[1]])
@@ -256,6 +256,8 @@ while time <= Tend:
     for j in range(0, num_panels):
         correction_rule[j].update_parameters(P_value[i], I_value[i])
     ''''
+    ---  Sensor dynamics -----------
+
     for j in range(0, num_termometers):
         if time>0:
             tspan = [time-dt,time]
@@ -377,11 +379,11 @@ d_sum_real=d_sum_real*7
 
 ###---------------RESULTS---------------------------###
 
-st=round(0.25*Tend/dt)  #1200 #starting time for the plot
-ft=round(0.75*Tend/dt) #1350 finish time for the plot
+st=round(0.25*(Tend-Tstart)/dt)  #starting time for the plot
+ft=round(0.75*(Tend-Tstart)/dt)  #finish time for the plot
 
-st=round(0.33*Tend/dt)  #1200 #starting time for the plot
-ft=round(0.7*Tend/dt)
+st=round(0.33*(Tend-Tstart)/dt)  
+ft=round(0.7*(Tend-Tstart)/dt)
 
 #st=round(Tstart)
 #ft=round(Tend)
@@ -389,8 +391,8 @@ ft=round(0.7*Tend/dt)
 #st=round(Tstart)
 #ft=round(Tstart+100)
 
-#st=round(0.3*Tend/dt)  #1200 #starting time for the plot
-#ft=round(0.32*Tend/dt)
+#st=round(0.3*(Tend-Tstart)/dt)  #1200 #starting time for the plot
+#ft=round(0.32*(Tend-Tstart)/dt)
 
 fig_d_sum=plt.figure(1)
 plt.plot(time_sim[st:ft], d_sum_real[st:ft], label=f'd real')
@@ -456,8 +458,6 @@ for j in range (0, num_termometers):
     plt.plot(time_sim[st:ft],  t_out_real[j][st:ft], label=f'Maffezzoni d estimated')
     #plt.plot(time_sim[st:ft], t_out_digital[j][st:ft], linestyle='--', label=f'DT d estimated')
     #!plt.plot(time_sim[st:ft],  b[j][st:ft], label=f'PI')
-    #plt.plot(time_sim[st:ft], t_out_tube[j][st:ft], label=f'T_tube')
-    #plt.plot(time_sim[st:ft], t_out_tube_sim[j][st:ft], label=f'T_tube_sim')
     plt.xlabel('Time (s)')
     plt.ylabel('Temperature (K)')
     plt.title(f'T[{j}]')
