@@ -21,7 +21,7 @@ print(f"The Plant has: {num_tot_volumes} total axial volumes" )
 #---- Importing DATA -------#
 
 #mat_file = './data/m20240208Nuvola_1_7p.mat'   #small cloud at 13.00
-mat_file = './data/mreduction_PI.mat'
+mat_file = './data/mreduction_PI.mat'           #Uniform step of 30% 
 #mat_file = './data/mray_tracing.mat'
 
 #mat_file = './data/m20240209Nuvola_12_7p.mat'  
@@ -38,9 +38,6 @@ mat_file = './data/mreduction_PI.mat'
 #mat_file='./data/mNuvola1_Longhi.mat'
 #mat_file='./data/mNuvola1_8AM_reverse.mat'
 
-#mat_file2='./data/mstatic_comp.mat'
-mat_file2='./data/mreduction_static_comp.mat'   # Result of the PI control wrt a step of 30% 
-#mat_file2 = './data/mray_tracing.mat'
 
 #-------- Importing FMUs -------#
 
@@ -94,19 +91,6 @@ print(f"The simulation starts at {Tstart} and ends at time {Tend} with a dt of {
 Tstart
 
 
-tmp_mat_data2 = scipy.io.loadmat(mat_file2) # The mass flow rate computed in Dymola with the PI controller
-w_dymola = np.array(tmp_mat_data2['flow'])
-
-d_sum_real=np.array(tmp_mat_data2['average_flux'])
-#d_sum_real=np.array(tmp_mat_data2['d_tot'])
-
-tmp_t_out_meas2 = np.array(tmp_mat_data2['temperature'])
-t_out_dymola = np.zeros([num_termometers, tmp_t_out_meas.shape[1]])
-for i in range(0, num_termometers):
-    t_out_dymola[i, :] = tmp_t_out_meas2[i*num_volumes_per_panel, :]
-
-d_sum_real=d_sum_real*7
-#d_sum_real=-d_sum_real/100000
 
 #---- Functions --------------------------------#
 
@@ -371,6 +355,25 @@ print(f"The temperature cost is: {cost}")
 print(f"The disturbance cost is: {cost_d}")
 
 progress_bar.close()
+
+##--------- Compare the result with the "oracle" controller that knows the flux -----##
+
+#mat_file2='./data/mstatic_comp.mat'
+mat_file2='./data/mreduction_static_comp.mat'   # Uniform step of 30% 
+#mat_file2 = './data/mray_tracing.mat' 
+
+tmp_mat_data2 = scipy.io.loadmat(mat_file2) # The mass flow rate computed in Dymola with the PI controller
+w_dymola = np.array(tmp_mat_data2['flow'])
+
+d_sum_real=np.array(tmp_mat_data2['average_flux'])
+#d_sum_real=np.array(tmp_mat_data2['d_tot'])
+
+tmp_t_out_meas2 = np.array(tmp_mat_data2['temperature'])
+t_out_dymola = np.zeros([num_termometers, tmp_t_out_meas.shape[1]])
+for i in range(0, num_termometers):
+    t_out_dymola[i, :] = tmp_t_out_meas2[i*num_volumes_per_panel, :]
+
+d_sum_real=d_sum_real*7 
 
 ###---------------RESULTS---------------------------###
 
